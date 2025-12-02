@@ -16,6 +16,7 @@
     <modules>
         <module>player-service</module>
         <module>team-service</module>
+        <module>match-service</module>
     </modules>
 
     <properties>
