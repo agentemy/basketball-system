@@ -10,7 +10,7 @@
         <relativePath/>
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>basket</artifactId>
+    <artifactId>basketball-system</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>

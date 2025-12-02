@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: basketball-system-postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    volumes:
+      - basketball_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  basketball_postgres_data:
