@@ -15,6 +15,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>player-service</module>
+        <module>team-service</module>
     </modules>
 
     <properties>
