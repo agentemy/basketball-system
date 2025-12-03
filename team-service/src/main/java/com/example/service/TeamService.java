@@ -37,6 +37,7 @@ public class TeamService {
                 .toList();
     }
 
+
     public TeamResponse getTeamById(Long id) {
         Team team = teamRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Team not found"));

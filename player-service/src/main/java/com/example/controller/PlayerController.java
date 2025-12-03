@@ -24,6 +24,11 @@ public class PlayerController {
         return playerService.registerPlayer(request);
     }
 
+    @GetMapping("/team/{id}")
+    public Long getTeamId(@PathVariable Long playerId){
+        return playerService.getTeamId(playerId);
+    }
+
     @GetMapping
     public List<Player> getAllPlayers() {
         return playerService.getAllPlayers();

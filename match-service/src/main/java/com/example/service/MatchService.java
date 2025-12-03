@@ -12,6 +12,7 @@ import com.example.repository.MatchRepository;
 import com.example.repository.PlayerStatsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,9 +23,9 @@ import java.util.List;
 public class MatchService {
     private final MatchRepository matchRepository;
     private final PlayerStatsRepository playerStatsRepository;
+    private final RedisTemplate<String, String> redisTemplate;
 
     public MatchResponse createMatch(CreateMatchRequest request) {
-        //команды не могут играть сами с собой
         if (request.homeTeamId().equals(request.awayTeamId())) {
             throw new RuntimeException("Home team and away team cannot be the same");
         }
@@ -61,7 +62,6 @@ public class MatchService {
         Match match = matchRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Match not found"));
 
-        // Можно менять счет только у активных матчей
         if (match.getStatus() != MatchStatus.LIVE) {
             throw new RuntimeException("Can only update score for LIVE matches");
         }

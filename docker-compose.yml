@@ -12,11 +12,16 @@ services:
     volumes:
       - basketball_postgres_data:/var/lib/postgresql/data
 
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+
   player-service:
     build:
       context: ./player-service
       dockerfile: Dockerfile
-
     container_name: player-service
     ports:
       - "8081:8081"
@@ -25,6 +30,7 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
       SERVER_PORT: 8081
+      SERVER_ADDRESS: 0.0.0.0
     depends_on:
       - postgres
     restart: unless-stopped
@@ -41,6 +47,7 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
       SERVER_PORT: 8082
+      SERVER_ADDRESS: 0.0.0.0
     depends_on:
       - postgres
       - player-service
@@ -58,10 +65,12 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
       SERVER_PORT: 8083
+      SERVER_ADDRESS: 0.0.0.0
     depends_on:
       - postgres
       - player-service
       - team-service
+      - redis
     restart: unless-stopped
 
   api-gateway:
@@ -75,6 +84,7 @@ services:
       PLAYER_SERVICE_URL: http://player-service:8081
       TEAM_SERVICE_URL: http://team-service:8082
       MATCH_SERVICE_URL: http://match-service:8083
+      SERVER_ADDRESS: 0.0.0.0
     depends_on:
       - player-service
       - team-service
@@ -83,3 +93,4 @@ services:
 
 volumes:
   basketball_postgres_data:
+  redis_data:
